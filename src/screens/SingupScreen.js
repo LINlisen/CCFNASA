@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import { View, FlatList,Text,ScrollView} from "react-native";
+import Singup from "../compenents/Signup"
 
-import Login from "../compenents/Login";
-const LoginScreen = ({navigation}) => {
+const SignupScreen = ({navigation}) => {
   return (
    
       <View style={{height:1000}}>
-      <Login
+      <Singup
          navigation={navigation}/>
        </View>
           
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;

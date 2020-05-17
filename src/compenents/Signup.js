@@ -5,7 +5,7 @@ import { TextInput } from "react-native";
 
 
 
-const Login =({navigation})=>{
+const Singup =({navigation})=>{
     const [value,onChangeText] =React.useState(' ');
     const [password,ChangeText] =React.useState(' ');
     return(
@@ -13,7 +13,7 @@ const Login =({navigation})=>{
             <Image source={require("../../img/img_backimg.png")}
                     style={styles.backimg}/>
             <View>
-            <Text style={styles.logintxt}>登入</Text>
+            <Text style={styles.logintxt}>註冊</Text>
             <Text style={styles.loginlabel}>名稱</Text>
             <TextInput 
                 style={styles.logininput}
@@ -35,7 +35,7 @@ const Login =({navigation})=>{
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={()=>navigation.navigate('Singup')}>
-                    <Text style={styles.singuplabel}>註冊</Text>
+                    <Text style={styles.singuplabel}>登入</Text>
                 </TouchableOpacity>
             <TouchableOpacity
                 >
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
     },
   });
   
-  export default  Login;
+  export default  Singup;

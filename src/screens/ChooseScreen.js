@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import { View, FlatList,Text,ScrollView} from "react-native";
+import Choose from "../compenents/Choose";
 
-import Login from "../compenents/Login";
-const LoginScreen = ({navigation}) => {
+const ChooseScreen = ({navigation}) => {
   return (
    
       <View style={{height:1000}}>
-      <Login
-         navigation={navigation}/>
+      <Choose 
+            navigation={navigation}/>
        </View>
           
   );
 };
 
-export default LoginScreen;
+export default ChooseScreen;

@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import { View, FlatList,Text,ScrollView} from "react-native";
+import Bell from "../compenents/Bell";
 
-import Login from "../compenents/Login";
-const LoginScreen = ({navigation}) => {
+const BellScreen = ({navigation}) => {
   return (
    
       <View style={{height:1000}}>
-      <Login
-         navigation={navigation}/>
+      <Bell 
+            navigation={navigation}/>
        </View>
           
   );
 };
 
-export default LoginScreen;
+export default BellScreen;
