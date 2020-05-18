@@ -12,6 +12,11 @@ const Bell =({navigation})=>{
            <Image source={require('../../img/img_bellheader.png')}
                     style={styles.header}
             />
+              <TouchableOpacity>
+                <Image source={require('../../img/btn_headerleft.png')}
+                        style={styles.headerleft}
+                />
+            </TouchableOpacity>
             <TouchableOpacity>
                 <Image source={require('../../img/btn_headerright.png')}
                         style={styles.headerright}
@@ -41,6 +46,12 @@ const styles = StyleSheet.create({
         height:19.13,
         marginTop:-37.03,
         marginLeft:363.8
+    },
+    headerleft:{
+        width:20.83,
+        height:19.79,
+        marginTop:-37.03,
+        marginLeft:32
     },
     bell:{
         width:221,
