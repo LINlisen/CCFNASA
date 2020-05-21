@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     },
     message:{
         backgroundColor:"#F1F2F3",
-        width:292,
+        width:330,
         height:38,
         marginLeft:10,
         marginTop:15,

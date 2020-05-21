@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image } from 'react-native';
+import { StyleSheet, Text, View,Image,AsyncStorage  } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
+import { SplashScreen } from 'expo';
 import LoginScreen from "../screens/LoginScreen";
 import ChooseScreen from "../screens/ChooseScreen";
 import SignupScreen from "../screens/SingupScreen";
@@ -9,12 +10,41 @@ import BellScreen from "../screens/BellScreen";
 import PostScreen from "../screens/PostScreen";
 import RecordScreen from "../screens/RecordScreen";
 const Stack = createStackNavigator();
+const PERSISTENCE_KEY = "NAVIGATION_STATE";
 function Navigation() {
+  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [initialNavigationState, setInitialNavigationState] = React.useState();
+  React.useEffect(() => {
+    async function loadResourcesAndDataAsync() {
+      try {
+        SplashScreen.preventAutoHide();
+        const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+        const state = JSON.parse(savedStateString);
+        setInitialNavigationState(state);
+      } catch (e) {
+        // We might want to provide this error information to an error reporting service
+        console.warn(e);
+      } finally {
+        setLoadingComplete(true);
+        SplashScreen.hide();
+      }
+    }
+    loadResourcesAndDataAsync();
+  }, []);
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
   return (
    
      
     
-    <NavigationContainer>
+    <NavigationContainer 
+    initialState={initialNavigationState}
+    onStateChange={(state) =>
+      AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+    }
+      >
        <Image source={require("../../img/img_backimg.png")}
                   style={styles.backimg}/>
         <Stack.Navigator>
@@ -60,7 +90,7 @@ function Navigation() {
     </NavigationContainer>
   );
 }
-
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
