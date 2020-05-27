@@ -1,13 +1,60 @@
 import React from "react";
-import { StyleSheet, Text, View, Image,ScrollView,TouchableOpacity} from "react-native";
+
+import { StyleSheet, Text, View, Image,ScrollView,TouchableOpacity,AsyncStorage} from "react-native";
 import { TextInput } from "react-native";
+import {Button} from 'react-native-elements';
+const NAME_KEY="NAME_KEY";
+const PASSWORD_KEY="PASSWORD_KEY";
 
 
-
-
-const Singup =({navigation})=>{
-    const [value,onChangeText] =React.useState(' ');
-    const [password,ChangeText] =React.useState(' ');
+const Singup =({navigation},props)=>{
+    const [name,onChangeText] =React.useState('');
+    const [password,ChangeText] =React.useState('');
+    const saveFna=()=>{
+        onChangeText(name);
+      
+        try{
+            AsyncStorage.setItem(NAME_KEY, JSON.stringify(name));
+           
+        }catch(error){
+            console.log(error)
+        }
+    };
+    const saveFnb=()=>{
+       
+        ChangeText(password);
+        try{
+           
+            AsyncStorage.setItem(PASSWORD_KEY, JSON.stringify(password));
+            
+        }catch(error){
+            console.log(error)
+        }
+    };
+    React.useEffect(() => {
+        const restoreState = async () => {
+          try {
+            const savedNameString = await AsyncStorage.getItem(NAME_KEY);
+           
+            const namestate = JSON.parse(savedNameString);
+          
+            onChangeText(namestate);
+          
+          } catch (e) {}
+        };
+        restoreState();
+        const storeState = async () => {
+            try {
+            
+              const savedPasswordString = await AsyncStorage.getItem(PASSWORD_KEY);
+             
+              const passwordstate = JSON.parse(savedPasswordString);
+             
+              ChangeText(passwordstate);
+            } catch (e) {}
+          };
+          storeState();
+      }, []);
     return(
         <View style={styles.all}>
             <Image source={require("../../img/img_backimg.png")}
@@ -17,17 +64,21 @@ const Singup =({navigation})=>{
             <Text style={styles.loginlabel}>名稱</Text>
             <TextInput 
                 style={styles.logininput}
-                onChange={text =>onChangeText(text)}
-                value={value}
+                onChangeText={text =>onChangeText(text)}
+                value={name}
                 returnKeyLabel="done"
+              
                 />
+                   <Button onPress={saveFna} title="save" backgroundColor color="green"/>
             <Text style={styles.passwordlabel}>密碼</Text>
             <TextInput 
                 style={styles.logininput}
-                onChange={text =>ChangeText(text)}
+                onChangeText={text =>ChangeText(text)}
                 value={password}
                 returnKeyLabel="done"
+                
                 />
+                <Button onPress={saveFnb} title="save" backgroundColor color="green"/>
             <TouchableOpacity
                 onPress={()=>navigation.navigate('Choose')}>
                 <Image source={require("../../img/btn_login.png")}

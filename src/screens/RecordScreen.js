@@ -8,7 +8,7 @@ const RecordScreen = ({navigation}) => {
       <View style={{height:1000}}>
       <Record 
             navigation={navigation}/>
-      <Map  navigation={navigation}/>
+      
        </View>
           
   );
