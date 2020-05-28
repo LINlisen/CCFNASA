@@ -69,7 +69,7 @@ const Singup =({navigation},props)=>{
                 returnKeyLabel="done"
               
                 />
-                   <Button onPress={saveFna} title="save" backgroundColor color="green"/>
+                   
             <Text style={styles.passwordlabel}>密碼</Text>
             <TextInput 
                 style={styles.logininput}
@@ -78,9 +78,9 @@ const Singup =({navigation},props)=>{
                 returnKeyLabel="done"
                 
                 />
-                <Button onPress={saveFnb} title="save" backgroundColor color="green"/>
+                
             <TouchableOpacity
-                onPress={()=>navigation.navigate('Choose')}>
+                onPress={saveFna,saveFnb}>
                 <Image source={require("../../img/btn_login.png")}
                         style={styles.loginbt}/>
             </TouchableOpacity>
