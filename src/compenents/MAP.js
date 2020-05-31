@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from "react";
-import { View,StyleSheet,Image } from "react-native";
+import { View,StyleSheet,Image,Animated} from "react-native";
 import MapView,{Marker} from "react-native-maps";
 import mapStyle from "../json/mapstyle.json";
 import Constants from "expo-constants";
@@ -7,10 +7,16 @@ import * as Location from "expo-location";
 import { Icon } from "react-native-elements";
 import axios from "axios";
 import metroJson from "../json/metro.json";
+import {VictoryPie} from "victory-native";
 const UBIKE_URL =
 "https://data.ntpc.gov.tw/api/datasets/71CD1490-A2DF-4198-BEF1-318479775E8A/json/preview";
 
 const Map =({navigation})=>{
+    const ubikeData =[
+      {x:"剩餘:20",y:20},
+      {x:"可還:15",y:15},
+    ] ;
+    const dataColor=["tomato","orange"];
     const [region, setRegion] = useState({
         longitude: 121.543054,
         latitude: 25.044747,
@@ -113,11 +119,17 @@ const Map =({navigation})=>{
             title={`${site.sna} ${site.sbi}/${site.tot}`}
             description={site.ar}
           >
-                <Image
-              source={require("../../img/ubike.png")}
-              style={{ width: 26, height: 28 }}
-              resizeMode="contain"
-            />
+               <VictoryPie
+                width={150}
+                data={[
+                  {x:site.tot-site.sbi,y:100-(site.sbi/site.tot)*100},
+                  
+                  {x:site.sbi,y:(site.sbi/site.tot)*100},
+                  
+                ]}
+                labelRadius={10}
+                colorScale={dataColor}
+                />
           </Marker>
         ))}
         <Marker
