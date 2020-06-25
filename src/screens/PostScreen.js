@@ -1,16 +1,30 @@
 import React, { useContext } from "react";
-import { View, FlatList,Text,ScrollView,StyleSheet} from "react-native";
+import { View, FlatList, Text, ScrollView, StyleSheet} from "react-native";
 import Post from "../compenents/Post";
-
-const PostScreen = ({navigation}) => {
+import Tab from "../navigations/Tab";
+import { SafeAreaView } from "react-native-safe-area-context";
+const PostScreen = ({ navigation }) => {
   return (
-   <ScrollView style={{flex:1}}>
-      <View>
+  
+    <View style={styles.container}>
+     
+
       <Post 
             navigation={navigation}/>
-       </View>
-       </ScrollView>
+   
+      
+    </View>
+ 
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginBottom: -10
+  }
+})
+
 
 export default PostScreen;

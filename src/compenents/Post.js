@@ -20,11 +20,13 @@ const Post =({navigation})=>{
            <Image source={require('../../img/img_bellheader.png')}
                     style={styles.header}
             />
-            <TouchableOpacity
-                onPress={()=>navigation.navigate('Record')}>
-                <Image source={require('../../img/btn_headerright.png')}
+             
+            <TouchableOpacity>
+               
+                <Image source={require('../../img/icon_search.png')}
                         style={styles.headerright}
                 />
+
             </TouchableOpacity>
             <Text style={styles.title}>生活紀錄</Text>
             <TextInput
@@ -92,6 +94,12 @@ const styles = StyleSheet.create({
     header:{
         width:414,
         height:88
+    },
+    headerleft:{
+        width:20.91,
+        height:19.13,
+        marginTop:-37.03,
+        marginLeft:30
     },
     headerright:{
         width:20.91,

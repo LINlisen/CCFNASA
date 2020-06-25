@@ -3,14 +3,78 @@ import { StyleSheet, Text, View,Image,AsyncStorage  } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { SplashScreen } from 'expo';
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
 import LoginScreen from "../screens/LoginScreen";
 import ChooseScreen from "../screens/ChooseScreen";
 import SignupScreen from "../screens/SingupScreen";
 import BellScreen from "../screens/BellScreen";
+
 import PostScreen from "../screens/PostScreen";
 import RecordScreen from "../screens/RecordScreen";
+import SettingScreen from "../screens/SettingScreen";
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator()
 const PERSISTENCE_KEY = "NAVIGATION_STATE";
+function Tabnavigation() {
+  return(
+      
+          <Tab.Navigator
+            screenOptions={({route})=>({
+              tabBarIcon:({focused,color,size})=>{
+              let iconPath;
+              if (route.name ==='生活紀錄'){
+                iconPath = focused
+                ?require('../../img/icon_tab1.png'):
+                require('../../img/icon_tab1.png');
+              }
+              else if(route.name === "紀錄表"){
+                iconPath = focused
+                ?require('../../img/icon_tab2.png'):
+                require('../../img/icon_tab2.png');
+              }
+              else if(route.name === "設定"){
+                iconPath = focused
+                ?require('../../img/icon_tab3.png'):
+                require('../../img/icon_tab3.png');
+              }
+              return(
+                <Image 
+                style={{width:30,height:30}}
+                source={iconPath}/>
+                  );
+              },
+            })}
+            tabBarOptions={{
+              activeBackgroundColor:"#409EFF",
+              inactiveBackgroundColor:"#409EFF",
+              
+              activeTintColor: 'orange',
+              inactiveTintColor: 'white',
+              labelStyle: {
+              
+              fontSize: 12,
+              marginTop: 0,
+              paddingTop: 0,  
+              marginBottom: 10,
+              paddingBottom: 0
+              },
+              
+              style:{height:83},
+              safeAreaInsets: {
+                bottom: 0,
+              },
+              tabStyle: styles.tabStyle
+            }}
+            
+            >
+         
+              <Tab.Screen name="生活紀錄" component={PostScreen} title=""/>
+              <Tab.Screen name="紀錄表"   component={RecordScreen} title=""/>
+              <Tab.Screen name="設定"     component={SettingScreen} title=""/>
+          </Tab.Navigator>
+     
+  )
+}
 function Navigation() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
@@ -44,6 +108,11 @@ function Navigation() {
     onStateChange={(state) =>
       AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
     }
+    options={{
+      safeAreaInsets: {
+        bottom: 0,
+      }
+    }}
       >
        <Image source={require("../../img/img_backimg.png")}
                   style={styles.backimg}/>
@@ -75,16 +144,10 @@ function Navigation() {
                           }}
                           />
               <Stack.Screen name="Post"
-                          component={PostScreen}
-                          options={{
-                            title:null
-                          }}
-                          />
-              <Stack.Screen name="Record"
-                          component={RecordScreen}
-                          options={{
-                            title:"紀錄表"
-                          }}
+              component={Tabnavigation}
+              options={{
+                title:null
+              }}
                           />
         </Stack.Navigator>
     </NavigationContainer>
@@ -101,6 +164,9 @@ const styles = StyleSheet.create({
   backimg:{
     marginTop:-421,
    
+  },
+  tabStyle:{
+    // backgroundColor:　'linear-gradient(#e66465, #9198e5)',
   }
 });
 
