@@ -86,11 +86,11 @@ export default class App extends Component {
   // callback that gets called when items for a certain month should be loaded (month became visible)
   loadItemsForMonth={(mongh) => {console.log('trigger items loading')}}
   // callback that gets called on day press
-  onDayPress={(day)=>{console.log('day pressed')}}
+  onDayPress={(day)=>{Input()}}
   // initially selected day
   selected={'2020-05-16'}
   // specify how each item should be rendered in agenda
-  renderItem={(item) => {return (<View />);}}
+  renderItem={(item) => {return (<View><Text>121212</Text></View>);}}
   // specify how each date should be rendered. day can be undefined if the item is not first in that day.
   renderDay={(day, item) => {return (<View />);}}
   // specify how empty date content with no items should be rendered

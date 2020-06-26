@@ -4,16 +4,17 @@ import { TextInput } from "react-native";
 import { Keyboard ,TouchableWithoutFeedback,KeyboardAvoidingView} from 'react-native';
 import { Switch} from 'react-native'
 import ToggleSwitch from 'toggle-switch-react-native'
-import { State } from "react-native-gesture-handler";
-import { onChange } from "react-native-reanimated";
 
 const USERNAME_KEY="USERNAME_KEY";
 const Setting =({navigation})=>{
    let value=false
    const title="使用者名稱"
-   const message="更改名稱"
+   const message="目前名稱:"
+   const [isEnabled, setIsEnabled] = useState(false);
+const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const [username,setName] = useState('aaa');
-    const saveFn=()=>{
+    const [visible,setvisible]=useState(true)
+    const saveFn=(username)=>{
         setName(username);
         try{
             AsyncStorage.setItem(USERNAME_KEY,JSON.stringify(username));
@@ -35,29 +36,29 @@ const Setting =({navigation})=>{
     storeState();
 },[]);
 function Pressname(){
-    <Prompt
-    visible={value}
-    title="Say Something"
-    placeholder="Type Something"
-    onCancel={() =>
-        this.setState({
-            text: "User Cancelled!",
-            visible: !value
-        })
-    }
-    onSubmit={text =>
-        this.setState({
-            text: "User submitted: " + text,
-            visible: !value
-        })
-    }
-/>
+    Alert.prompt(
+        title,
+        message+username,
+        
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: (text) => saveFn(text),
+          },
+        ],
+        
+      );
 }
 function Presskey(){
     Alert.alert(
         '群組金鑰',
         'jdskfjiew',
-        username
+        
     )
 }
     return(
@@ -98,7 +99,14 @@ function Presskey(){
             <Image style={styles.iconunlock}
                     source={require('../../img/icon_bell.png')}/>
             <Text style={styles.unlocktitle}>提醒</Text>
-            <Switch style={{marginLeft:181,marginTop:20.5,width:52,height:26}}/>
+            <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+        style={{marginTop:28,marginLeft:211}}
+      />
            </View>
            <TouchableOpacity 
            onPress={Presskey}>
