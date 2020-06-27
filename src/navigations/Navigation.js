@@ -24,17 +24,17 @@ function Tabnavigation() {
               let iconPath;
               if (route.name ==='生活紀錄'){
                 iconPath = focused
-                ?require('../../img/icon_tab1.png'):
+                ?require('../../img/icon_tab1_press.png'):
                 require('../../img/icon_tab1.png');
               }
               else if(route.name === "紀錄表"){
                 iconPath = focused
-                ?require('../../img/icon_tab2.png'):
+                ?require('../../img/icon_tab2_press.png'):
                 require('../../img/icon_tab2.png');
               }
               else if(route.name === "設定"){
                 iconPath = focused
-                ?require('../../img/icon_tab3.png'):
+                ?require('../../img/icon_tab3_press.png'):
                 require('../../img/icon_tab3.png');
               }
               return(
@@ -48,7 +48,7 @@ function Tabnavigation() {
               activeBackgroundColor:"#409EFF",
               inactiveBackgroundColor:"#409EFF",
               
-              activeTintColor: 'orange',
+              activeTintColor: '#FFD900',
               inactiveTintColor: 'white',
               labelStyle: {
               
