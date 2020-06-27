@@ -79,22 +79,35 @@ export default class App extends Component {
       <Agenda
   // the list of items that have to be displayed in agenda
   items={
-    {'2020-08-22': [{text: 'item 1 - any js object'}],
+    {
+      '2020-08-22': [{text: 'item 1 - any js object'}],
      '2020-07-23': [{text: 'item 2 - any js object'}],
      '2020-06-04': [{text: 'item 3 - any js object'}],
     }}
   // callback that gets called when items for a certain month should be loaded (month became visible)
   loadItemsForMonth={(mongh) => {console.log('trigger items loading')}}
   // callback that gets called on day press
-  onDayPress={(day)=>{Input()}}
+  onDayPress={(day)=>{}}
   // initially selected day
-  selected={'2020-05-16'}
+  selected={'2020-06-04'}
   // specify how each item should be rendered in agenda
-  renderItem={(item) => {return (<View><Text>121212</Text></View>);}}
+  renderItem={(items) => {
+    return (<View>
+              <View style={styles.bar}>
+                <Text style={styles.sugar}>血糖</Text>
+                <Text style={styles.press}>血壓</Text>
+                
+              </View>
+            </View>);}}
   // specify how each date should be rendered. day can be undefined if the item is not first in that day.
-  renderDay={(day, item) => {return (<View />);}}
+  renderDay={() => {return (<View></View>);}}
   // specify how empty date content with no items should be rendered
-  renderEmptyDate={() => {return (<View />);}}
+  renderEmptyDate={() => {return (<View>
+   
+
+  </View>);}}
+  
+ 
   // specify your item comparison function for increased performance
   rowHasChanged={(r1, r2) => {return r1.text !== r2.text}}
   // agenda theme
@@ -143,5 +156,30 @@ title:{
     marginTop:-38,
    marginLeft:177,
    color:"white"
+},
+bar:{
+  flexDirection:"row"
+},
+sugar:{
+  width:72,
+  height:26,
+  backgroundColor:"white",
+  marginTop:13.5,
+  marginLeft:110,
+  paddingTop:5,
+  paddingLeft:21,
+  fontSize:15,
+  borderRadius:8
+},
+press:{
+  width:72,
+  height:26,
+  backgroundColor:"white",
+  marginTop:13.5,
+  marginLeft:54,
+  paddingTop:5,
+  paddingLeft:21,
+  fontSize:15,
+  borderRadius:8
 }
 });
