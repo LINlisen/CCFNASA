@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { StyleSheet, Text, View, Image,ScrollView,TouchableOpacity, Alert, AsyncStorage} from "react-native";
 import { TextInput } from "react-native";
 import { Keyboard ,TouchableWithoutFeedback,KeyboardAvoidingView} from 'react-native';
 import { Switch} from 'react-native'
 import ToggleSwitch from 'toggle-switch-react-native'
-
+import { StoreContext, StoreProvider } from "../stores";
+import * as firebase from "firebase";
 const USERNAME_KEY="USERNAME_KEY";
 const Setting =({navigation})=>{
    let value=false
@@ -12,6 +13,9 @@ const Setting =({navigation})=>{
    const message="目前名稱:"
    const [isEnabled, setIsEnabled] = useState(false);
 const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+const { isLoginState } = useContext(StoreContext);
+const [loggedin, setLoggedin] = useState(false);
+     const [isLogin, setIsLogin] = isLoginState;
     const [username,setName] = useState('aaa');
     const [visible,setvisible]=useState(true)
     const saveFn=(username)=>{
@@ -61,6 +65,11 @@ function Presskey(){
         
     )
 }
+const onSignOut = () => {
+    firebase.auth().signOut();
+    setIsLogin(true);
+    setLoggedin(true);
+};
     return(
         <TouchableWithoutFeedback
   onPress={Keyboard.dismiss}
@@ -73,12 +82,8 @@ function Presskey(){
            <Image source={require('../../img/img_bellheader.png')}
                     style={styles.header}
             />
-            <TouchableOpacity
-                onPress={()=>navigation.navigate('Record')}>
-                <Image source={require('../../img/btn_headerright.png')}
-                        style={styles.headerright}
-                />
-            </TouchableOpacity>
+           
+           
             <Text style={styles.title}>設定</Text>
             <TouchableOpacity
                     onPress={Pressname}>
@@ -121,7 +126,11 @@ function Presskey(){
                     source={require('../../img/icon_voice.png')}/>
             <Text style={styles.voicetitle}>聲音偵測設定</Text>
            </View>
-           
+           <TouchableOpacity 
+           onPress={onSignOut}>
+           <Image style={styles.signout}
+                source={require('../../img/bt_signout.png')}/>
+                </TouchableOpacity>
             </KeyboardAvoidingView>
         </View>
         </TouchableWithoutFeedback>
@@ -220,6 +229,12 @@ unlocktitle:{
     marginLeft:32.2,
     fontSize:20,
     color:"#203D64",
+   },
+   signout:{
+       width:331,
+       height:68,
+       marginTop:279,
+       marginLeft:41.5
    }
   });
   

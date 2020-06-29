@@ -2,10 +2,11 @@ import React from "react";
 import { StyleSheet, Text, View, Image,ScrollView,TouchableOpacity} from "react-native";
 import { TextInput } from "react-native";
 import { Keyboard ,TouchableWithoutFeedback,KeyboardAvoidingView} from 'react-native';
-
+import CameraRoll from "@react-native-community/cameraroll";
 
 
 const Post =({navigation})=>{
+
   const [value,onChangeText]= React.useState('想記錄點什麼?');
   const [message,ChangeText]= React.useState('');
     return(
@@ -21,13 +22,7 @@ const Post =({navigation})=>{
                     style={styles.header}
             />
              
-            <TouchableOpacity>
-               
-                <Image source={require('../../img/icon_search.png')}
-                        style={styles.headerright}
-                />
-
-            </TouchableOpacity>
+            
             <Text style={styles.title}>生活紀錄</Text>
             <TextInput
                 style={styles.new}
@@ -41,15 +36,15 @@ const Post =({navigation})=>{
                 />
             </TouchableOpacity>
             
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.navigate('Photopick')}>
                 <Image source={require('../../img/btn_photo.png')}
                         style={styles.photo}/>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigation.navigate('Camera')}>
                 <Image source={require('../../img/btn_takepic.png')}
                         style={styles.takepic}/>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity >
                 <Image source={require('../../img/btn_attachment.png')}
                         style={styles.attachment}/>
             </TouchableOpacity>
@@ -65,7 +60,14 @@ const Post =({navigation})=>{
                 </View>
                 <Text style={styles.content}>今天阿嬤生日我有買蛋糕喔!</Text>
                 <Image style={styles.contentimg}
-                        source={require('../../img/img_contentimg.png')}/>
+                        source={{uri: "file:///var/mobile/Containers/Data/Application/9160EF1D-49BA-433E-9EE8-DE902E4B8C37/Library/Caches/ExponentExperienceData/%2540linsen%252FOTC1/Camera/A3540A86-DD0E-4774-A990-023EFA60A83F.jpg"
+
+
+
+
+
+
+                    }}/>
                          
                 <TextInput
                 style={styles.message}

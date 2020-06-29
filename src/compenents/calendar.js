@@ -120,16 +120,13 @@ export default class App extends Component {
     
     return (
         <View style={styles.all}>
+          <View style={styles.ad}>
         <Image source={require('../../img/img_bellheader.png')}
                  style={styles.header}
          />
-         <TouchableOpacity
-             onPress={()=>navigation.navigate('Record')}>
-             <Image source={require('../../img/btn_headerright.png')}
-                     style={styles.headerright}
-             />
-         </TouchableOpacity>
+        
          <Text style={styles.title}>紀錄表</Text>
+         </View>
       <View style={styles.container}>
       <Agenda
   // the list of items that have to be displayed in agenda
@@ -747,7 +744,7 @@ const styles = StyleSheet.create({
 },
 header:{
     width:414,
-    height:88
+    height:145
 },
 headerright:{
     width:20.91,
@@ -759,8 +756,9 @@ title:{
     fontSize:20,
     width:82,
     height:27,
-    marginTop:-38,
+    marginTop:-80,
    marginLeft:177,
+   
    color:"white"
 },
 bar:{

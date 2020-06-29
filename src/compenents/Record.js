@@ -20,18 +20,8 @@ const Record =({navigation})=>{
            <Image source={require('../../img/img_bellheader.png')}
                     style={styles.header}
             />
-             <TouchableOpacity
-                onPress={()=>navigation.navigate('Setting')}>
-                <Image source={require('../../img/btn_headerright.png')}
-                        style={styles.headerleft}
-                />
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={()=>navigation.navigate('Record')}>
-                <Image source={require('../../img/btn_headerright.png')}
-                        style={styles.headerright}
-                />
-            </TouchableOpacity>
+             
+           
             <Text style={styles.title}>紀錄表</Text>
             <Calendar
 

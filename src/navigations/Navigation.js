@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useContext}from 'react';
 import { StyleSheet, Text, View,Image,AsyncStorage  } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,10 +8,12 @@ import LoginScreen from "../screens/LoginScreen";
 import ChooseScreen from "../screens/ChooseScreen";
 import SignupScreen from "../screens/SingupScreen";
 import BellScreen from "../screens/BellScreen";
-
+import { StoreContext, StoreProvider } from "../stores";
 import PostScreen from "../screens/PostScreen";
 import RecordScreen from "../screens/RecordScreen";
 import SettingScreen from "../screens/SettingScreen";
+import CameraScreen from '../screens/CameraScreen';
+import PhotopickScreen from '../screens/PhotopickScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator()
 const PERSISTENCE_KEY = "NAVIGATION_STATE";
@@ -68,9 +70,9 @@ function Tabnavigation() {
             
             >
          
-              <Tab.Screen name="生活紀錄" component={PostScreen} title=""/>
-              <Tab.Screen name="紀錄表"   component={RecordScreen} title=""/>
-              <Tab.Screen name="設定"     component={SettingScreen} title=""/>
+              <Tab.Screen name="生活紀錄" component={PostScreen}/>
+              <Tab.Screen name="紀錄表"   component={RecordScreen} />
+              <Tab.Screen name="設定"     component={SettingScreen}/>
           </Tab.Navigator>
      
   )
@@ -78,6 +80,8 @@ function Tabnavigation() {
 function Navigation() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
+  const { isLoginState } = useContext(StoreContext);
+  const [ isLogin, setIsLogin] = isLoginState;
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
@@ -96,10 +100,9 @@ function Navigation() {
     loadResourcesAndDataAsync();
   }, []);
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-  return (
+  
+  
+  return isLogin? (
    
      
     
@@ -125,18 +128,33 @@ function Navigation() {
                           }}
                          
                           />
+            <Stack.Screen name="Singup"
+                          component={SignupScreen}
+                          options={{
+                            title:null
+                          }}
+                          />
+                          </Stack.Navigator>
+                          </NavigationContainer>):(
+         <NavigationContainer initialState={initialNavigationState}
+         onStateChange={(state) =>
+           AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+         }
+         options={{
+           safeAreaInsets: {
+             bottom: 0,
+           }
+         }}>
+           <Image source={require("../../img/img_backimg.png")}
+                  style={styles.backimg}/>
+          <Stack.Navigator>
             <Stack.Screen name="Choose"
                           component={ChooseScreen}
                           options={{
                             title:null
                           }}
                           />
-              <Stack.Screen name="Singup"
-                          component={SignupScreen}
-                          options={{
-                            title:null
-                          }}
-                          />
+
               <Stack.Screen name="Bell"
                           component={BellScreen}
                           options={{
@@ -149,11 +167,23 @@ function Navigation() {
                 title:null
               }}
                           />
+              <Stack.Screen name="Camera"
+              component={CameraScreen}
+              options={{
+                title:null
+              }}
+                  />
+              <Stack.Screen name="Photopick"
+              component={PhotopickScreen}
+              options={{
+                title:null
+              }}
+                  />          
         </Stack.Navigator>
     </NavigationContainer>
   );
 }
-}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -170,4 +200,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Navigation;
+export default ()=>{
+  return(
+    <StoreProvider>
+      <Navigation/>
+    </StoreProvider>
+  )
+}
