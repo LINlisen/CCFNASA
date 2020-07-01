@@ -9,6 +9,7 @@ export default function App(navigation) {
   const [cameraRef, setCameraRef] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back);
  const uri= MediaLibrary.getAssetInfoAsync("localUri");
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -26,7 +27,8 @@ export default function App(navigation) {
   return (
     <View style={{ flex: 1 }}>
       <Camera style={{ flex: 1 }} type={type} ref={ref => {
-        setCameraRef(ref) ;}}>
+        setCameraRef(ref) ;} }
+        >
         <View
           style={{
             flex: 1,
@@ -49,16 +51,19 @@ export default function App(navigation) {
           </TouchableOpacity>
           <TouchableOpacity style={{}} onPress={async() => {
             if(cameraRef){
-              let photo = await cameraRef.takePictureAsync()
+              let photo = await cameraRef.takePictureAsync(uri)
               
-          
-              console.log('photo', photo);
+              let uri=photo.uri;
+              console.log('photo',uri);
+               
             }
           }}>
               <Image style={{width:60,height:60,marginTop:810,marginLeft:80}}
                         source={require('../../img/bt_takephoto.png')}/>
+              <Image style={{width:60,height:60}}
+                        source={{uri:"uri"}}/>
         </TouchableOpacity>
-          <TouchableOpacity onPress={async()=>{FileSystem.deleteAsync("file:///var/mobile/Containers/Data/Application/9160EF1D-49BA-433E-9EE8-DE902E4B8C37/Library/Caches/ExponentExperienceData/%2540linsen%252FOTC1/Camera/8ABEB35A-E980-4F05-A352-C292D481B84D.jpg"
+         {/* <TouchableOpacity onPress={async()=>{FileSystem.deleteAsync("file:///var/mobile/Containers/Data/Application/9160EF1D-49BA-433E-9EE8-DE902E4B8C37/Library/Caches/ExponentExperienceData/%2540linsen%252FOTC1/Camera/8ABEB35A-E980-4F05-A352-C292D481B84D.jpg"
 
 
 
@@ -67,7 +72,7 @@ export default function App(navigation) {
 
 ,true)}}>
               <Text style={{fontSize:100}}>Delete</Text>
-          </TouchableOpacity>
+        </TouchableOpacity>*/}
         </View>
       </Camera>
     </View>

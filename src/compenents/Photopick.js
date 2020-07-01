@@ -26,9 +26,10 @@ export default class ImagePickerExample extends React.Component {
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      const { uri } = await Camera.takePictureAsync();
+      
+      const { localUri } = await Camera.takePictureAsync();
       const asset = await MediaLibrary.createAssetAsync(uri);
+      const { status } = await Permissions.askAsync(Permissions.localUri);
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
