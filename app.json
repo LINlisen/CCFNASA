@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "HelloWorld",
+    "name": "CallcallFamily",
     "slug": "OTC1",
     "platforms": [
       "ios",
@@ -12,8 +12,7 @@
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      
-      "backgroundColor": "#CCE0F4"
+      "backgroundColor": "#EAF6FF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,6 +22,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }

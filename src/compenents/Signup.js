@@ -175,7 +175,7 @@ const { isLoginState } = useContext(StoreContext);
                     onChangeText={password => setPassword(password)}
                     value={password}
                     returnKeyLabel="done"
-                   
+                    secureTextEntry={true}
                     clearTextOnFocus={true}
                 />
 
