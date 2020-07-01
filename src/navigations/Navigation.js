@@ -9,6 +9,7 @@ import ChooseScreen from "../screens/ChooseScreen";
 import SignupScreen from "../screens/SingupScreen";
 import BellScreen from "../screens/BellScreen";
 import { StoreContext, StoreProvider } from "../stores";
+import {PhotoProvider} from '../stores/photoasset'
 import PostScreen from "../screens/PostScreen";
 import RecordScreen from "../screens/RecordScreen";
 import SettingScreen from "../screens/SettingScreen";
@@ -106,37 +107,7 @@ function Navigation() {
    
      
     
-    <NavigationContainer 
-    initialState={initialNavigationState}
-    onStateChange={(state) =>
-      AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
-    }
-    options={{
-      safeAreaInsets: {
-        bottom: 0,
-      }
-    }}
-      >
-       <Image source={require("../../img/img_backimg.png")}
-                  style={styles.backimg}/>
-        <Stack.Navigator>
-          
-            <Stack.Screen name="Login" 
-                          component={LoginScreen}
-                          options={{
-                            title:null
-                          }}
-                         
-                          />
-            <Stack.Screen name="Singup"
-                          component={SignupScreen}
-                          options={{
-                            title:null
-                          }}
-                          />
-                          </Stack.Navigator>
-                          </NavigationContainer>):(
-         <NavigationContainer initialState={initialNavigationState}
+    <NavigationContainer initialState={initialNavigationState}
          onStateChange={(state) =>
            AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
          }
@@ -180,7 +151,38 @@ function Navigation() {
               }}
                   />          
         </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer>):(
+      <NavigationContainer 
+      initialState={initialNavigationState}
+      onStateChange={(state) =>
+        AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+      }
+      options={{
+        safeAreaInsets: {
+          bottom: 0,
+        }
+      }}
+        >
+         <Image source={require("../../img/img_backimg.png")}
+                    style={styles.backimg}/>
+          <Stack.Navigator>
+            
+              <Stack.Screen name="Login" 
+                            component={LoginScreen}
+                            options={{
+                              title:null
+                            }}
+                           
+                            />
+              <Stack.Screen name="Singup"
+                            component={SignupScreen}
+                            options={{
+                              title:null
+                            }}
+                            />
+                            </Stack.Navigator>
+                            </NavigationContainer>
+         
   );
 }
 
@@ -203,7 +205,9 @@ const styles = StyleSheet.create({
 export default ()=>{
   return(
     <StoreProvider>
-      <Navigation/>
+      <PhotoProvider>
+        <Navigation/>
+      </PhotoProvider>
     </StoreProvider>
   )
 }

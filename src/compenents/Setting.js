@@ -67,7 +67,7 @@ function Presskey(){
 }
 const onSignOut = () => {
     firebase.auth().signOut();
-    setIsLogin(true);
+    setIsLogin(false);
     setLoggedin(true);
 };
     return(

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, AsyncStorage,Alert } from "react-native";
+import { Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from "react-native";
 import { Button } from 'react-native-elements';
 import * as firebase from "firebase";
 import Confirm from "../compenents/Confirm";
-
+import { StoreContext, StoreProvider } from "../stores";
 const NAME_KEY = "NAME_KEY";
 const PASSWORD_KEY = "PASSWORD_KEY";
 
@@ -12,7 +13,8 @@ const PASSWORD_KEY = "PASSWORD_KEY";
 const Singup = ({ navigation }, props) => {
     // const [name, onChangeText] = React.useState('');
     // const [password, ChangeText] = React.useState('');
-
+const { isLoginState } = useContext(StoreContext);
+    const [isLogin, setIsLogin] = isLoginState;
     //signup code
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
@@ -20,7 +22,7 @@ const Singup = ({ navigation }, props) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [showModal, setShowModal] = useState(false);
-
+   
 
     //onsignin function(not used)
     const onSignIn = async () => {
@@ -43,21 +45,26 @@ const Singup = ({ navigation }, props) => {
 
     //sign up code
     const onCreateUser = async () => {
+        setLoading(true);
         try {
             await firebase.auth().createUserWithEmailAndPassword(email, password);
             setShowModal(false);
             setError("");
             setEmail("");
             setPassword("");
-            setLoading(false);
-            setIsLogin(true);
+           
+            
+            
+            
         } catch (err) {
             setShowModal(false);
             setError(err.message);
             setEmail("");
             setPassword("");
             setLoading(false);
+            
         }
+        
     };
     const createTwoButtonAlert = () =>
     Alert.alert(
@@ -95,7 +102,14 @@ const Singup = ({ navigation }, props) => {
     }, []);
 
 
-
+    const okyn=()=>{
+        if(ok==true){
+            ()=>navigation.navigate('Login')
+        }
+        else{
+            alert("bad")
+        }
+    }
     //asyncstorage homework
     const saveFna = () => {
         onChangeText(email);
@@ -139,6 +153,8 @@ const Singup = ({ navigation }, props) => {
     }, []);
 
     return (
+        <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}>
         <View style={styles.all}>
             <Image source={require("../../img/img_backimg.png")}
                 style={styles.backimg} />
@@ -150,7 +166,7 @@ const Singup = ({ navigation }, props) => {
                     onChangeText={email => setEmail(email)}
                     value={email}
                     returnKeyLabel="done"
-
+                    clearTextOnFocus={true}
                 />
 
                 <Text style={styles.passwordlabel}>密碼</Text>
@@ -159,11 +175,12 @@ const Singup = ({ navigation }, props) => {
                     onChangeText={password => setPassword(password)}
                     value={password}
                     returnKeyLabel="done"
-
+                   
+                    clearTextOnFocus={true}
                 />
 
                 <TouchableOpacity
-                    onPress={saveFna, saveFnb, onCreateUser}>
+                    onPress={saveFna,saveFnb,onCreateUser}>
                     <Image source={require("../../img/btn_login.png")}
                         style={styles.loginbt} />
                 </TouchableOpacity>
@@ -186,6 +203,7 @@ const Singup = ({ navigation }, props) => {
                 <Text style={styles.msg}>{msg}</Text>
             </View>
         </View>
+        </TouchableWithoutFeedback>
     )
 };
 const styles = StyleSheet.create({

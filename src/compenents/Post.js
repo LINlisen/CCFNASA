@@ -1,14 +1,65 @@
-import React from "react";
+import React,{useContext,useState} from "react";
 import { StyleSheet, Text, View, Image,ScrollView,TouchableOpacity} from "react-native";
 import { TextInput } from "react-native";
 import { Keyboard ,TouchableWithoutFeedback,KeyboardAvoidingView} from 'react-native';
 import CameraRoll from "@react-native-community/cameraroll";
-
+import { PhotoContext } from "../stores/photoasset";
 
 const Post =({navigation})=>{
-
-  const [value,onChangeText]= React.useState('想記錄點什麼?');
-  const [message,ChangeText]= React.useState('');
+    const { photouriState } = useContext(PhotoContext);
+    const [photouri, setphotouri] = photouriState;
+  const [value,onChangeText]= useState('想記錄點什麼?');
+  const [message,ChangeText]= useState('');
+   class ImagePickerExample  {
+    state = {
+      image: null,
+    };
+  
+    render() {
+      let { image } = this.state;
+     
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Button title="Pick an image from camera roll" onPress={this._pickImage} />
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+        </View>
+      );
+    }
+  
+    componentDidMount() {
+      this.getPermissionAsync();
+    }
+  
+    getPermissionAsync = async () => {
+      if (Constants.platform.ios) {
+        
+        const { localUri } = await Camera.takePictureAsync();
+        const asset = await MediaLibrary.createAssetAsync();
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    };
+  
+    _pickImage = async () => {
+      try {
+        let result = asset({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+        if (!result.cancelled) {
+          this.setState({ image: result });
+        }
+  
+        console.log(result);
+      } catch (E) {
+        console.log(E);
+      }
+    };
+  }
     return(
         <TouchableWithoutFeedback
   onPress={Keyboard.dismiss}
@@ -36,7 +87,7 @@ const Post =({navigation})=>{
                 />
             </TouchableOpacity>
             
-            <TouchableOpacity onPress={()=>navigation.navigate('Photopick')}>
+            <TouchableOpacity onPress={ImagePickerExample._pickImage}>
                 <Image source={require('../../img/btn_photo.png')}
                         style={styles.photo}/>
             </TouchableOpacity>
@@ -58,9 +109,9 @@ const Post =({navigation})=>{
                     <Text style={styles.time}>五分鐘</Text>
                     </View>
                 </View>
-                <Text style={styles.content}>今天阿嬤生日我有買蛋糕喔!</Text>
+                <Text style={styles.content}>照片唷!!</Text>
                 <Image style={styles.contentimg}
-                        source={{uri: "file:///var/mobile/Containers/Data/Application/9160EF1D-49BA-433E-9EE8-DE902E4B8C37/Library/Caches/ExponentExperienceData/%2540linsen%252FOTC1/Camera/A3540A86-DD0E-4774-A990-023EFA60A83F.jpg"
+                        source={{uri:photouri
 
 
 
@@ -211,4 +262,9 @@ const styles = StyleSheet.create({
    
   });
   
-  export default  Post;
+  export default ({navigation})=>{
+      return(
+        <Post
+            navigation={navigation}/>
+      )
+  };

@@ -28,8 +28,8 @@ export default class ImagePickerExample extends React.Component {
     if (Constants.platform.ios) {
       
       const { localUri } = await Camera.takePictureAsync();
-      const asset = await MediaLibrary.createAssetAsync(uri);
-      const { status } = await Permissions.askAsync(Permissions.localUri);
+      const asset = await MediaLibrary.createAssetAsync();
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
@@ -45,7 +45,7 @@ export default class ImagePickerExample extends React.Component {
         quality: 1,
       });
       if (!result.cancelled) {
-        this.setState({ image: result.uri });
+        this.setState({ image: result });
       }
 
       console.log(result);

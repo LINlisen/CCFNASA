@@ -31,14 +31,14 @@ const Login = ({ navigation }, props) => {
         setLoading(true);
         try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
-             setIsLogin(false);
+             setIsLogin(true);
         } catch (err1) {
-            try {
-                await firebase.auth().createUserWithEmailAndPassword(email, password);
-            } catch (err2) {
-                setMsg(err2.message);
-
-            }
+            // try {
+            //     await firebase.auth().createUserWithEmailAndPassword(email, password);
+            // } catch (err2) {
+                // setMsg(err1.message);
+                setMsg('尚未註冊.....');
+            // }
         } finally {
 
             setLoading(false);
@@ -113,6 +113,8 @@ const Login = ({ navigation }, props) => {
                 permissions: ["public_profile"],
             });
             if (type === "success") {
+                setIsLogin(true);
+                setLoading(true);
                 // Get the user's name using Facebook's Graph API
                 const response = await axios.get(
                     `https://graph.facebook.com/me?access_token=${token}`
@@ -125,6 +127,7 @@ const Login = ({ navigation }, props) => {
                     await currentUser.updateProfile({
                         displayName: response.data.name,
                     });
+                    
                 }
             } else {
                 // type === 'cancel'
@@ -156,6 +159,7 @@ const Login = ({ navigation }, props) => {
                 if (type === "success") {
                     await AsyncStorage.setItem("fb_token", token);
                     doFBLogin(token);
+                    setIsLogin(true);
                 } else {
                     // type === 'cancel'
                     return;
@@ -224,7 +228,7 @@ const Login = ({ navigation }, props) => {
                         onChangeText={email => setEmail(email)}
                         value={email}
                         returnKeyLabel="done"
-
+                        clearTextOnFocus={true}
                     />
 
                     <Text style={styles.passwordlabel}>密碼</Text>
@@ -233,7 +237,8 @@ const Login = ({ navigation }, props) => {
                         onChangeText={password => setPassword(password)}
                         value={password}
                         returnKeyLabel="done"
-
+                        secureTextEntry={true}
+                        clearTextOnFocus={true}
                     />
                     {renderButton()}
                     {/* <TouchableOpacity
